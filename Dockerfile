@@ -6,12 +6,18 @@ ENV WEEWX_VERSION 3.7.1
 RUN mv /usr/sbin/policy-rc.d.disabled /usr/sbin/policy-rc.d && \
     apt-get update && \
     apt-get -y --no-install-recommends install ssh rsync fonts-freefont-ttf && \
+    apt-get -y install python-pip && \
     /tmp/setup/setup.sh && \
     apt-get -y -u dist-upgrade && \
     apt-get clean && rm -rf /tmp/setup /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
     /usr/local/bin/docker-wipelogs && \
     mv /usr/sbin/policy-rc.d /usr/sbin/policy-rc.d.disabled && \
-    mkdir -p /var/www/html/weewx
+    mkdir -p /var/www/html/weewx && \
+	pip install paho-mqtt
+
+ADD https://raw.githubusercontent.com/bonjour81/ESP8266-MQTT-WEEWX/master/weewx/wxMQTT.py /usr/share/weewx/user/wxMesh.py
 
 VOLUME ["/var/lib/weewx"]
+VOLUME ["/var/www/html/weewx"]
+VOLUME ["/etc/weewx"]
 CMD ["/usr/local/bin/boot-debian-base"]
