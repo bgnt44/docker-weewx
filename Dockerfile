@@ -1,7 +1,7 @@
 FROM jgoerzen/debian-base-security:stretch
 MAINTAINER John Goerzen <jgoerzen@complete.org>
 COPY setup/ /tmp/setup/
-ENV WEEWX_VERSION 3.7.1
+ENV WEEWX_VERSION 3.9.1
 # The font file is used for the generated images
 RUN mv /usr/sbin/policy-rc.d.disabled /usr/sbin/policy-rc.d && \
     apt-get update && \
@@ -15,7 +15,6 @@ RUN mv /usr/sbin/policy-rc.d.disabled /usr/sbin/policy-rc.d && \
     mkdir -p /var/www/html/weewx && \
 	pip install paho-mqtt
 
-ADD https://raw.githubusercontent.com/bonjour81/ESP8266-MQTT-WEEWX/master/weewx/wxMQTT.py /usr/share/weewx/user/wxMesh.py
 
 VOLUME ["/var/lib/weewx"]
 VOLUME ["/var/www/html/weewx"]
